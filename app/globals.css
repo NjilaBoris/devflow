@@ -42,6 +42,9 @@
   .background-light800_dark200 {
     @apply bg-light-800 dark:bg-dark-200;
   }
+  .background-light900_dark200 {
+    @apply bg-light-800 dark:bg-dark-200;
+  }
 
   .background-dark400_light900 {
     @apply dark:bg-dark-400 bg-light-900 !important;
@@ -284,5 +287,11 @@
       rgba(23, 28, 35, 0.41) 0%,
       rgba(19, 22, 28, 0.7) 100%
     );
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
   }
 }

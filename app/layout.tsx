@@ -3,13 +3,16 @@ import localFont from "next/font/local";
 import "./globals.css";
 import React from "react";
 
+import Navbar from "@/components/navigation/navbar";
+import ThemeProvider from "@/Theme/Theme";
+
 const inter = localFont({
   src: "./fonts/InterVF.ttf",
   variable: "--font-inter",
   weight: "100 200 300 400 500 700 800 900",
 });
 const spaceGrotesk = localFont({
-  src: "./fonts/SpaceGrotesk.ttf",
+  src: "./fonts/SpaceGroteskVF.ttf",
   variable: "--font-space-grotesk",
   weight: " 300 400 500 700",
 });
@@ -29,11 +32,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.className} ${spaceGrotesk.variable}  antialiased`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
