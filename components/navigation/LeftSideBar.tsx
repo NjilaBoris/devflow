@@ -17,7 +17,7 @@ function LeftSideBar() {
       <div className="flex flex-1 flex-col gap-6">
         <NavLinks />
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="mt-8 flex flex-col gap-3">
         <Button
           className="small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none"
           asChild
