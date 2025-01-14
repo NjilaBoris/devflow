@@ -4,12 +4,12 @@ interface Tag {
 }
 
 interface Author {
-  id_: string;
+  _id: string;
   name: string;
   image: string;
 }
 
-interface Questions {
+interface Question {
   _id: string;
   title: string;
   tags: Tag[];

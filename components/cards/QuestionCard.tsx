@@ -6,12 +6,13 @@ import { getTimeStamp } from "@/lib/utils";
 
 import TagCard from "./TagCard";
 import Metric from "../Metric";
-interface props {
-  question: Questions;
+
+interface Props {
+  question: Question;
 }
 const QuestionCard = ({
   question: { _id, title, tags, author, createdAt, upvotes, answers, views },
-}: props) => {
+}: Props) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -39,7 +40,7 @@ const QuestionCard = ({
           alt={author.name}
           value={author.name}
           title={`• asked ${getTimeStamp(createdAt)}`}
-          href={ROUTES.PROFILE(author.id_)}
+          href={ROUTES.PROFILE(author._id)}
           textStyles="body-medium text-dark400_light700"
           isAuthor
         />
