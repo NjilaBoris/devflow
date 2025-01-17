@@ -5,7 +5,6 @@ import { ForbiddenError, ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { AccountSchema, UserSchema } from "@/lib/validations";
 import { APIErrorResponse } from "@/types/global";
-import { User } from "lucide-react";
 
 import { NextResponse } from "next/server";
 
