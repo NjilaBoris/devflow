@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 import User from "@/database/user.model";
-
 import { ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
@@ -20,7 +19,6 @@ export async function GET() {
   }
 }
 
-// Create User
 export async function POST(request: Request) {
   try {
     await dbConnect();

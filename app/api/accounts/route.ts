@@ -1,12 +1,11 @@
-import Account from "@/database/account.model";
-
-import handleError from "@/lib/handler/error";
-import { ForbiddenError, ValidationError } from "@/lib/http-errors";
-import dbConnect from "@/lib/mongoose";
-import { AccountSchema, UserSchema } from "@/lib/validations";
-import { APIErrorResponse } from "@/types/global";
-
 import { NextResponse } from "next/server";
+
+import Account from "@/database/account.model";
+import { ForbiddenError } from "@/lib/http-errors";
+import dbConnect from "@/lib/mongoose";
+import { AccountSchema } from "@/lib/validations";
+import { APIErrorResponse } from "@/types/global";
+import handleError from "@/lib/handler/error";
 
 export async function GET() {
   try {
@@ -23,7 +22,6 @@ export async function GET() {
   }
 }
 
-// Create User
 export async function POST(request: Request) {
   try {
     await dbConnect();
@@ -38,7 +36,7 @@ export async function POST(request: Request) {
 
     if (existingAccount)
       throw new ForbiddenError(
-        "An account with thesane provider and provider already exists"
+        "An account with the same provider already exists"
       );
 
     const newAccount = await Account.create(validatedData);

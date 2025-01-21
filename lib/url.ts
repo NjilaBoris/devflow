@@ -5,10 +5,12 @@ interface UrlQueryParams {
   key: string;
   value: string;
 }
+
 interface RemoveUrlQueryParams {
   params: string;
   keysToRemove: string[];
 }
+
 export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
   const queryString = qs.parse(params);
 
