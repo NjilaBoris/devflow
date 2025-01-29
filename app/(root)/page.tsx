@@ -5,7 +5,6 @@ import HomeFilters from "@/components/filters/HomeFilters";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { auth } from "@/auth";
 
 const questions = [
   {
