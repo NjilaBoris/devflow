@@ -8,7 +8,7 @@ import action from "../handler/action";
 import { PaginatedSearchParamsSchema } from "../validations";
 import handleError from "../handler/error";
 import { FilterQuery } from "mongoose";
-import { Tag } from "@/database";
+import { Tag as tag } from "@/database";
 
 export const getTags = async (
   params: PaginatedSearchParams
@@ -27,7 +27,7 @@ export const getTags = async (
   const skip = (Number(page) - 1) * pageSize;
   const limit = Number(pageSize);
 
-  const filterQuery: FilterQuery<typeof Tag> = {};
+  const filterQuery: FilterQuery<typeof tag> = {};
 
   if (query) {
     filterQuery.$or = [{ name: { $regex: new RegExp(query, "i") } }];
@@ -54,9 +54,10 @@ export const getTags = async (
   }
 
   try {
-    const totalTags = await Tag.countDocuments(filterQuery);
+    const totalTags = await tag.countDocuments(filterQuery);
 
-    const tags = await Tag.find(filterQuery)
+    const tags = await tag
+      .find(filterQuery)
       .sort(sortCriteria)
       .skip(skip)
       .limit(limit);
