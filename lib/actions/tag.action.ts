@@ -2,13 +2,19 @@ import {
   ActionResponse,
   ErrorResponse,
   PaginatedSearchParams,
+  Question,
   Tag,
 } from "@/types/global";
 import action from "../handler/action";
-import { PaginatedSearchParamsSchema } from "../validations";
+import {
+  GetTagQuestionsSchema,
+  PaginatedSearchParamsSchema,
+} from "../validations";
 import handleError from "../handler/error";
 import { FilterQuery } from "mongoose";
-import { Tag as tag } from "@/database";
+import { Question as question, Tag as tag } from "@/database";
+import { GetTagQuestionsParams } from "@/types/action";
+import { filter } from "@mdxeditor/editor";
 
 export const getTags = async (
   params: PaginatedSearchParams
@@ -68,6 +74,65 @@ export const getTags = async (
       success: true,
       data: {
         tags: JSON.parse(JSON.stringify(tags)),
+        isNext,
+      },
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+};
+
+export const getTagQuestions = async (
+  params: GetTagQuestionsParams
+): Promise<
+  ActionResponse<{ tags: Tag; questions: Question[]; isNext: boolean }>
+> => {
+  const validationResult = await action({
+    params,
+    schema: GetTagQuestionsSchema,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+
+  const { tagId, page = 1, pageSize = 10, query } = params;
+
+  const skip = (Number(page) - 1) * pageSize;
+  const limit = Number(pageSize);
+
+  try {
+    //used tagg because i had to rename it to make it error free due to the fact that tag alone was every where
+
+    const tagg = await tag.findById(tagId);
+
+    if (!tagg) throw new Error("Tag not found");
+    const filterQuery: FilterQuery<typeof question> = {
+      tags: { $in: [tagId] },
+    };
+
+    if (query) {
+      filterQuery.title = { $regex: new RegExp(query, "i") };
+    }
+    const totalQuestions = await question.countDocuments(filterQuery);
+
+    const questions = await question
+      .find(filterQuery)
+      .select("_id title views answers upvotes downvotes author createdAt")
+      .populate([
+        { path: "author", select: "name image" },
+        { path: "tags", select: "name" },
+      ])
+      .skip(skip)
+      .limit(limit);
+
+    const isNext = totalQuestions > skip + questions.length;
+
+    return {
+      success: true,
+      data: {
+        tags: JSON.parse(JSON.stringify(tag)),
+        questions: JSON.parse(JSON.stringify(questions)),
         isNext,
       },
     };

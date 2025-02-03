@@ -1,3 +1,5 @@
+import { PaginatedSearchParams } from "./global";
+
 interface SignInWithOAuthParams {
   provider: string;
   providerAccountId: string;
@@ -33,4 +35,8 @@ interface EditQuestionParams extends CreateQuestionParams {
 
 interface GetQuestionParams {
   questionId: string;
+}
+
+interface GetTagQuestionsParams extends Omit<PaginatedSearchParams, "filter"> {
+  tagId: string;
 }
